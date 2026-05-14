@@ -15,7 +15,7 @@
 Just open `Lobstar-game.html` in any modern browser. That's it.
 
 ```bash
-git clone https://github.com/codexaktobe-cmd/lobstarwildegame/Lobstar-game.html
+git clone https://github.com/codexaktobe-cmd/lobstarwildegame.git
 cd lobstarwildegame
 open Lobstar-game.html   # macOS
 start Lobstar-game.html  # Windows
@@ -148,7 +148,7 @@ The science ticker at the bottom rotates through 8 real facts:
 1. Push the repo to GitHub
 2. Go to **Settings → Pages**
 3. Set source to `main` branch, root folder
-4. Your game is live at `https://github.com/codexaktobe-cmd/lobstarwildegame/Lobstar-game.html`
+4. Your game is live at `https://codexaktobe-cmd.github.io/lobstarwildegame/Lobstar-game.html`
 
 ### Netlify / Vercel
 
@@ -183,12 +183,13 @@ Contributions are welcome! Ideas for improvement:
 To contribute:
 
 ```bash
-git fork https://github.com/codexaktobe-cmd/lobstarwildegame/Lobstar-game.git
-git checkout -b codexaktobe-cmd/lobstarwildegame
-# make your changes in Lobstar-game.html
-git commit -m "Add: codexaktobe-cmd/lobstarwildegame"
-git push origin codexaktobe-cmd/lobstarwildegame
-# open a Pull Request
+# Fork is done via GitHub (not the terminal)
+# 1. Click "Fork" on the repository page on GitHub
+# 2. git clone https://github.com/YOUR-USERNAME/lobstarwildegame.git
+git checkout -b feature/your-feature-name
+git commit -m "Add: your feature description"
+git push origin feature/your-feature-name
+# Then open a Pull Request on GitHub
 ```
 
 ---
