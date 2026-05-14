@@ -15,7 +15,7 @@
 Just open `Lobstar-game.html` in any modern browser. That's it.
 
 ```bash
-git clone https://github.com/codexaktobe-cmd/lobstarwildegame/Lobstar-game.git
+git clone https://github.com/codexaktobe-cmd/lobstarwildegame/Lobstar-game.html
 cd lobstarwildegame
 open Lobstar-game.html   # macOS
 start Lobstar-game.html  # Windows
