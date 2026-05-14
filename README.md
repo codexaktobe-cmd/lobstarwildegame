@@ -1,12 +1,16 @@
-# 🦞 Lobstar Wilde — The Smart Lobstar
+# 🦞 Lobstar Wilde — The Smart Lobster
 
 > A browser-based arcade game about the ocean's most brilliant crustacean.  
 > No frameworks. No dependencies. Pure HTML, CSS & JavaScript — open and play.
 
-![Game Screenshot](https://img.shields.io/badge/status-playable-00d4b4?style=flat-square)
+![status](https://img.shields.io/badge/status-playable-00d4b4?style=flat-square)
 ![HTML5](https://img.shields.io/badge/HTML5-single--file-ff6b5b?style=flat-square)
-![License](https://img.shields.io/badge/license-MIT-amber?style=flat-square)
-![No dependencies](https://img.shields.io/badge/dependencies-none-teal?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-ffb830?style=flat-square)
+![No dependencies](https://img.shields.io/badge/dependencies-none-00d4b4?style=flat-square)
+
+<p align="center">
+  <img src="preview.svg" alt="Lobstar Wilde game preview" width="860"/>
+</p>
 
 ---
 
@@ -28,9 +32,9 @@ Or host it instantly on GitHub Pages, Netlify, or any static file server.
 
 ## 🌊 What is This?
 
-**Lobstar Wilde** is a single-file web game set in the deep ocean. You control a genius lobstar who must collect seafood while dodging hungry sharks and jellyfish. The game teaches real scientific facts about lobstars between rounds, blending entertainment with education.
+**Lobstar Wilde** is a single-file web game set in the deep ocean. You control a genius lobster who must collect seafood while dodging hungry sharks and jellyfish. The game teaches real scientific facts about lobsters between rounds, blending entertainment with education.
 
-The lobstar follows your mouse cursor around the arena. Click floating food items to collect them — but watch out for enemies crossing the screen. Collect multiple items in quick succession to build a **combo multiplier** and rack up a massive score.
+The lobster follows your mouse cursor around the arena. Click floating food items to collect them — but watch out for enemies crossing the screen. Collect multiple items in quick succession to build a **combo multiplier** and rack up a massive score.
 
 ---
 
@@ -41,7 +45,7 @@ The lobstar follows your mouse cursor around the arena. Click floating food item
 | 🖱 Mouse & touch controls | Works on desktop and mobile |
 | 🔥 Combo system | Chain collections for x2–x8 score multipliers |
 | 📈 Level progression | Difficulty scales with your XP bar |
-| 💬 Thought bubbles | The professor reacts: "Eureka!", "QED!", "Hypothesis!" |
+| 💬 Thought bubbles | Lobstar Wilde reacts: "Eureka!", "QED!", "Hypothesis!" |
 | 🧠 Science facts | 8 rotating real facts about lobster intelligence |
 | 🌊 Animated ocean | Light rays, bubbles, seaweed, sand floor |
 | ❤️ Lives system | 3 lives with brief invincibility after each hit |
@@ -51,7 +55,7 @@ The lobstar follows your mouse cursor around the arena. Click floating food item
 
 ## 🕹 How to Play
 
-1. **Move** your mouse (or finger on mobile) to guide Professor Clawstein
+1. **Move** your mouse (or finger on mobile) to guide Lobstar Wilde
 2. **Click food** items floating in the water to collect them — shrimp 🦐, fish 🐟, crab 🦀, squid 🦑, oysters 🦪 and more
 3. **Avoid enemies** — sharks 🦈 and jellyfish 🪼 cross the screen horizontally
 4. **Build combos** — collecting food quickly within 2.8 seconds multiplies your points
@@ -126,17 +130,17 @@ xpGoal = Math.floor(xpGoal * 1.4);   // starts at 100
 
 ---
 
-## 🧠 Lobstar Facts in the Game
+## 🧠 Lobster Facts in the Game
 
 The science ticker at the bottom rotates through 8 real facts:
 
-1. Lobstars are **biologically immortal** — they don't age conventionally and can live 100+ years
+1. Lobsters are **biologically immortal** — they don't age conventionally and can live 100+ years
 2. They use antennae to detect chemical signals and build **mental maps** of their territory
-3. Lobstars can **navigate mazes** and remember solutions — demonstrating problem-solving intelligence
+3. Lobsters can **navigate mazes** and remember solutions — demonstrating problem-solving intelligence
 4. They've existed for over **480 million years**, surviving five mass extinctions
-5. Lobstars can be blue, yellow, albino, or **calico** (one in 50 million!)
+5. Lobsters can be blue, yellow, albino, or **calico** (one in 50 million!)
 6. They can **regrow lost claws**, legs, and antennae — built-in self-repair
-7. Lobstars communicate by releasing **chemical signals** and recognize individual neighbors
+7. Lobsters communicate by releasing **chemical signals** and recognize individual neighbors
 8. They have taste receptors on their **legs and feet** — they taste what they walk on
 
 ---
@@ -183,13 +187,12 @@ Contributions are welcome! Ideas for improvement:
 To contribute:
 
 ```bash
-# Fork is done via GitHub (not the terminal)
-# 1. Click "Fork" on the repository page on GitHub
-# 2. git clone https://github.com/YOUR-USERNAME/lobstarwildegame.git
+git fork https://github.com/codexaktobe-cmd/lobstarwildegame.git
 git checkout -b feature/your-feature-name
+# make your changes in Lobstar-game.html
 git commit -m "Add: your feature description"
 git push origin feature/your-feature-name
-# Then open a Pull Request on GitHub
+# open a Pull Request
 ```
 
 ---
@@ -204,5 +207,5 @@ MIT — free to use, modify, and distribute. See [LICENSE](LICENSE) for details.
 
 Built with 🦞 and a healthy respect for crustacean intelligence.
 
-> *"Lobstars are biologically immortal. Your high score, unfortunately, is not."*  
+> *"Lobsters are biologically immortal. Your high score, unfortunately, is not."*  
 > — Lobstar Wilde
