@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lobstar Wilde</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ocean-deep: #021a3a;
+    --ocean-mid: #04306b;
+    --ocean-light: #0b5ba8;
+    --ocean-glow: #1a8fe3;
+    --sand: #e8c97a;
+    --coral: #ff6b5b;
+    --coral-dark: #c94030;
+    --teal: #00d4b4;
+    --teal-dark: #009e86;
+    --amber: #ffb830;
+    --amber-dark: #d48a00;
+    --white: #f0f8ff;
+    --text-muted: #7fc4f0;
+    --ui-bg: rgba(4, 18, 48, 0.85);
+    --ui-border: rgba(26, 143, 227, 0.3);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--ocean-deep);
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    width: 100%;
+    max-width: 860px;
+    padding: 1.5rem 1.5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-icon { font-size: 2rem; }
+
+  .logo-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: var(--amber);
+    line-height: 1;
+  }
+
+  .logo-sub {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .header-badge {
+    background: rgba(26, 143, 227, 0.15);
+    border: 1px solid var(--ui-border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.78rem;
+    color: var(--teal);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    width: 100%;
+    max-width: 860px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 1rem 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--ui-bg);
+    border: 1px solid var(--ui-border);
+    border-radius: 12px;
+    padding: 0.65rem 1rem;
+    text-align: center;
+  }
+
+  .stat-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .stat-val {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.6rem;
+    color: var(--amber);
+    line-height: 1;
+  }
+
+  .stat-val.teal { color: var(--teal); }
+  .stat-val.coral { color: var(--coral); }
+
+  /* ── ARENA ── */
+  #arena-wrap {
+    width: 100%;
+    max-width: 860px;
+    padding: 0 1.5rem;
+  }
+
+  #arena {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: none;
+    border: 1.5px solid var(--ui-border);
+    box-shadow: 0 0 60px rgba(26, 143, 227, 0.12);
+  }
+
+  /* Ocean background layers */
+  .ocean-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(11, 91, 168, 0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(0, 212, 180, 0.12) 0%, transparent 50%),
+      linear-gradient(180deg, #042050 0%, #062d72 40%, #031d55 100%);
+  }
+
+  /* Animated light rays */
+  .ray {
+    position: absolute;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(26,143,227,0.18) 0%, transparent 80%);
+    transform-origin: top center;
+    animation: sway 6s ease-in-out infinite;
+  }
+  .ray:nth-child(1) { left: 15%; animation-delay: 0s; transform: rotate(-8deg); }
+  .ray:nth-child(2) { left: 30%; width: 3px; animation-delay: 1.5s; transform: rotate(5deg); opacity: 0.7; }
+  .ray:nth-child(3) { left: 55%; animation-delay: 3s; transform: rotate(-3deg); }
+  .ray:nth-child(4) { left: 75%; width: 4px; animation-delay: 0.8s; transform: rotate(10deg); opacity: 0.5; }
+  .ray:nth-child(5) { left: 88%; animation-delay: 2s; transform: rotate(-6deg); opacity: 0.6; }
+
+  @keyframes sway {
+    0%, 100% { transform: rotate(var(--r, -8deg)) scaleX(1); }
+    50% { transform: rotate(calc(var(--r, -8deg) + 4deg)) scaleX(1.5); }
+  }
+
+  /* Sand floor */
+  .sand-floor {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: linear-gradient(180deg, transparent 0%, rgba(232,201,122,0.18) 40%, rgba(232,201,122,0.28) 100%);
+    border-top: 1px solid rgba(232,201,122,0.2);
+  }
+
+  /* Seaweed */
+  .seaweed {
+    position: absolute;
+    bottom: 42px;
+    font-size: 28px;
+    animation: weed 3s ease-in-out infinite;
+    transform-origin: bottom center;
+    opacity: 0.8;
+  }
+  @keyframes weed {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
+  }
+
+  /* ── LOBSTAR ── */
+  #lobster {
+    position: absolute;
+    font-size: 40px;
+    pointer-events: none;
+    transition: left 0.09s cubic-bezier(.2,.8,.4,1), bottom 0.09s cubic-bezier(.2,.8,.4,1);
+    filter: drop-shadow(0 0 10px rgba(255, 100, 50, 0.6));
+    z-index: 20;
+  }
+
+  #lobster.hurt { animation: hurt 0.3s; }
+  @keyframes hurt {
+    0% { filter: drop-shadow(0 0 0 red) brightness(3); }
+    100% { filter: drop-shadow(0 0 10px rgba(255,100,50,0.6)); }
+  }
+
+  /* ── THOUGHT BUBBLE ── */
+  #thought {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    color: #1a2a3a;
+    border-radius: 24px;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 30;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+
+  /* ── LEVEL BADGE ── */
+  #level-badge {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: rgba(255, 184, 48, 0.15);
+    border: 1px solid rgba(255, 184, 48, 0.4);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--amber);
+    z-index: 30;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ── FOOD ITEMS ── */
+  .food {
+    position: absolute;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 15;
+    animation: food-bob 2s ease-in-out infinite;
+    transition: transform 0.15s;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+  }
+  .food:hover { transform: scale(1.3) rotate(10deg); }
+  @keyframes food-bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+  }
+
+  .food.fading {
+    animation: food-collect 0.35s forwards;
+  }
+  @keyframes food-collect {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2.5) rotate(20deg); opacity: 0; }
+  }
+
+  /* ── ENEMIES ── */
+  .enemy {
+    position: absolute;
+    font-size: 30px;
+    z-index: 15;
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px rgba(255, 80, 50, 0.4));
+  }
+
+  /* ── BUBBLES ── */
+  .bubble {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(100, 200, 255, 0.3);
+    background: rgba(100, 200, 255, 0.06);
+    pointer-events: none;
+    animation: bubble-rise linear forwards;
+  }
+  @keyframes bubble-rise {
+    0% { transform: translateY(0) translateX(0); opacity: 0.5; }
+    100% { transform: translateY(-440px) translateX(20px); opacity: 0; }
+  }
+
+  /* ── PARTICLES ── */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particle-burst 0.5s ease-out forwards;
+  }
+  @keyframes particle-burst {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0) translate(var(--tx), var(--ty)); opacity: 0; }
+  }
+
+  /* ── SCORE POP ── */
+  .score-pop {
+    position: absolute;
+    font-family: 'Fredoka One', cursive;
+    font-size: 22px;
+    color: var(--amber);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    pointer-events: none;
+    z-index: 40;
+    animation: score-rise 0.8s ease-out forwards;
+  }
+  @keyframes score-rise {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-60px); opacity: 0; }
+  }
+
+  /* ── OVERLAY ── */
+  #overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: rgba(2, 14, 40, 0.88);
+    backdrop-filter: blur(4px);
+    z-index: 50;
+    border-radius: 18px;
+  }
+
+  .overlay-emoji { font-size: 4rem; animation: pop-in 0.4s cubic-bezier(.4,2,.6,1); }
+  @keyframes pop-in {
+    0% { transform: scale(0); }
+    100% { transform: scale(1); }
+  }
+
+  .overlay-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 2rem;
+    color: var(--amber);
+    text-align: center;
+  }
+
+  .overlay-sub {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 340px;
+    line-height: 1.5;
+  }
+
+  .overlay-hint {
+    font-size: 0.78rem;
+    color: rgba(127, 196, 240, 0.6);
+    text-align: center;
+  }
+
+  .btn-primary {
+    margin-top: 6px;
+    padding: 12px 36px;
+    background: var(--teal);
+    color: #021a3a;
+    border: none;
+    border-radius: 30px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 20px rgba(0, 212, 180, 0.35);
+  }
+
+  .btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 28px rgba(0, 212, 180, 0.5);
+  }
+
+  .btn-primary:active { transform: scale(0.97); }
+
+  /* ── PROGRESS BAR ── */
+  .xp-bar-wrap {
+    width: 100%;
+    max-width: 860px;
+    padding: 0.5rem 1.5rem;
+  }
+
+  .xp-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .xp-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .xp-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .xp-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--ocean-glow));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  /* ── FACT TICKER ── */
+  #fact-bar {
+    width: 100%;
+    max-width: 860px;
+    padding: 0.6rem 1.5rem 1.5rem;
+  }
+
+  .fact-inner {
+    background: var(--ui-bg);
+    border: 1px solid var(--ui-border);
+    border-radius: 12px;
+    padding: 10px 16px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .fact-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+  .fact-text {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .fact-text b { color: var(--teal); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <span class="logo-icon">🦞</span>
+    <div>
+      <div class="logo-text">Lobstar Wilde</div>
+      <div class="logo-sub">The Smart Lobstar</div>
+    </div>
+  </div>
+  <div class="header-badge">🎓 Ocean Academy</div>
+</header>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-label">Score</div>
+    <div class="stat-val" id="score">0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Best</div>
+    <div class="stat-val teal" id="best">0</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Lives</div>
+    <div class="stat-val" id="lives">❤️❤️❤️</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Combo</div>
+    <div class="stat-val coral" id="combo">x1</div>
+  </div>
+</div>
+
+<!-- ARENA -->
+<div id="arena-wrap">
+  <div id="arena">
+    <div class="ocean-bg"></div>
+    <div class="ray" style="--r:-8deg"></div>
+    <div class="ray" style="--r:5deg"></div>
+    <div class="ray" style="--r:-3deg"></div>
+    <div class="ray" style="--r:10deg"></div>
+    <div class="ray" style="--r:-6deg"></div>
+
+    <div class="seaweed" style="left:5%">🌿</div>
+    <div class="seaweed" style="left:18%; animation-delay:0.8s">🌿</div>
+    <div class="seaweed" style="left:82%; animation-delay:1.4s">🌿</div>
+    <div class="seaweed" style="left:93%; animation-delay:0.3s">🌿</div>
+    <div class="sand-floor"></div>
+
+    <div id="lobster">🦞</div>
+    <div id="thought"></div>
+    <div id="level-badge">Level 1</div>
+
+    <div id="overlay">
+      <div class="overlay-emoji">🦞</div>
+      <div class="overlay-title">Professor Clawstein</div>
+      <div class="overlay-sub">Guide the professor with your mouse. Click food to collect it. Avoid sharks and jellyfish!</div>
+      <div class="overlay-hint">🖱 Move mouse · Click food to eat · Dodge enemies</div>
+      <button class="btn-primary" id="startBtn">Start Adventure</button>
+    </div>
+  </div>
+</div>
+
+<!-- XP BAR -->
+<div class="xp-bar-wrap">
+  <div class="xp-bar-row">
+    <span class="xp-label">Level Progress</span>
+    <div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div>
+    <span class="xp-label" id="xp-text">0 / 100</span>
+  </div>
+</div>
+
+<!-- FACT BAR -->
+<div id="fact-bar">
+  <div class="fact-inner">
+    <span class="fact-icon">🧠</span>
+    <div class="fact-text" id="fact-text">
+      <b>Did you know?</b> Lobsters are biologically immortal — they don't age the way other animals do and can live for over <b>100 years</b>!
+    </div>
+  </div>
+</div>
+
+<script>
+const arena    = document.getElementById('arena');
+const lobEl    = document.getElementById('lobster');
+const scoreEl  = document.getElementById('score');
+const bestEl   = document.getElementById('best');
+const livesEl  = document.getElementById('lives');
+const comboEl  = document.getElementById('combo');
+const overlay  = document.getElementById('overlay');
+const thoughtEl= document.getElementById('thought');
+const levelBdg = document.getElementById('level-badge');
+const xpFill   = document.getElementById('xp-fill');
+const xpText   = document.getElementById('xp-text');
+const factEl   = document.getElementById('fact-text');
+
+const FOODS   = ['🦐','🐟','🦀','🦑','🐠','🦪','🐙','🫧'];
+const ENEMIES = ['🦈','🪼','🪼','🦑'];
+const THOUGHTS= ['Eureka!','Calculated!','Hypothesis!','Logical!','Fascinating!','Remarkable!','Brilliant!','QED!'];
+const HEARTS  = ['','❤️','❤️❤️','❤️❤️❤️'];
+
+const FACTS = [
+  '<b>Did you know?</b> Lobstars are biologically immortal — they don\'t age the same way other animals do and can live over <b>100 years</b>!',
+  '<b>Smart hunters:</b> Lobstars use their antennae to detect chemical signals in water, building a detailed <b>mental map</b> of their territory.',
+  '<b>Problem solvers:</b> Studies show lobstars can navigate mazes and remember solutions — making them <b>surprisingly intelligent</b>.',
+  '<b>Ancient creatures:</b> Lobstars have existed for over <b>480 million years</b> — they survived five mass extinctions!',
+  '<b>Color variety:</b> Lobstars can be blue, yellow, albino, or even <b>split two-color</b> — one in 50 million is calico!',
+  '<b>Regenerators:</b> Lobstars can regrow lost claws, legs, and antennae. They basically have <b>built-in self-repair</b>!',
+  '<b>Social beings:</b> Lobstars communicate by releasing <b>chemical signals</b> and can recognize individual neighbors.',
+  '<b>Taste with feet:</b> Lobstars have taste receptors on their <b>legs and feet</b> — they literally taste what they step on!',
+];
+
+let score=0, best=0, lives=3, combo=1, comboTimer=null;
+let level=1, xp=0, xpGoal=100;
+let lx=50, ly=40, mx=50, my=40;
+let running=false;
+let foods=[], enemies=[], raf;
+let lastFood=0, lastEnemy=0, lastBubble=0;
+let invincible=false, thoughtTimer=null, factIdx=0;
+
+/* ── helpers ── */
+function rand(a,b){ return a+Math.random()*(b-a); }
+
+function showThought(txt){
+  clearTimeout(thoughtTimer);
+  thoughtEl.textContent = txt || THOUGHTS[Math.floor(Math.random()*THOUGHTS.length)];
+  thoughtEl.style.opacity='1';
+  thoughtTimer = setTimeout(()=>{ thoughtEl.style.opacity='0'; }, 1600);
+}
+
+function setLives(){
+  livesEl.textContent = HEARTS[Math.max(0,lives)];
+}
+
+function setCombo(n){
+  combo = n;
+  comboEl.textContent = 'x'+combo;
+  comboEl.style.transform = 'scale(1.4)';
+  setTimeout(()=>{ comboEl.style.transform='scale(1)'; },200);
+}
+
+function updateXP(add){
+  xp += add;
+  while(xp >= xpGoal){ xp -= xpGoal; levelUp(); }
+  xpFill.style.width = (xp/xpGoal*100)+'%';
+  xpText.textContent = xp+' / '+xpGoal;
+}
+
+function levelUp(){
+  level++;
+  xpGoal = Math.floor(xpGoal * 1.4);
+  levelBdg.textContent = 'Level '+level;
+  showThought('Level '+level+'! 🎓');
+}
+
+function rotateFact(){
+  factIdx = (factIdx+1) % FACTS.length;
+  factEl.innerHTML = FACTS[factIdx];
+}
+
+/* ── score pop ── */
+function scorePop(x, y, pts){
+  const el = document.createElement('div');
+  el.className = 'score-pop';
+  el.textContent = '+'+pts;
+  el.style.left = x+'%';
+  el.style.bottom = y+'%';
+  arena.appendChild(el);
+  setTimeout(()=> el.remove(), 820);
+}
+
+/* ── bubble ── */
+function spawnBubble(){
+  const el=document.createElement('div');
+  el.className='bubble';
+  const s=3+Math.random()*10;
+  el.style.cssText=`width:${s}px;height:${s}px;left:${rand(0,100)}%;bottom:0;animation-duration:${rand(3,7)}s`;
+  arena.appendChild(el);
+  setTimeout(()=>el.remove(),7000);
+}
+
+/* ── food ── */
+function spawnFood(){
+  if(foods.length>=8) return;
+  const el=document.createElement('div');
+  el.className='food';
+  el.textContent=FOODS[Math.floor(Math.random()*FOODS.length)];
+  const fx=8+Math.random()*84, fy=10+Math.random()*72;
+  el.style.left=fx+'%'; el.style.bottom=fy+'%';
+  el.style.animationDelay=rand(0,2)+'s';
+  el.addEventListener('click',()=>{ if(running) collectFood(el,fx,fy); });
+  arena.appendChild(el);
+  const lifeMs = Math.max(3500, 6500 - level*300);
+  const tid = setTimeout(()=>{ el.remove(); foods=foods.filter(f=>f.el!==el); }, lifeMs);
+  foods.push({el,fx,fy,tid});
+}
+
+function collectFood(el, fx, fy){
+  clearTimeout(foods.find(f=>f.el===el)?.tid);
+  foods = foods.filter(f=>f.el!==el);
+  el.classList.add('fading');
+  setTimeout(()=>el.remove(),350);
+
+  clearTimeout(comboTimer);
+  combo = Math.min(combo+1,8);
+  comboTimer = setTimeout(()=>setCombo(1), 2800);
+  setCombo(combo);
+
+  const pts = 10 * level * combo;
+  score += pts;
+  scoreEl.textContent = score;
+  if(score>best){ best=score; bestEl.textContent=best; }
+  updateXP(pts);
+  scorePop(fx, fy+6, pts);
+  showThought();
+
+  if(Math.random()<0.3) rotateFact();
+}
+
+/* ── enemies ── */
+function spawnEnemy(){
+  const el=document.createElement('div');
+  el.className='enemy';
+  el.textContent=ENEMIES[Math.floor(Math.random()*ENEMIES.length)];
+  const fromRight=Math.random()>0.5;
+  const ex=fromRight?108:-8, ey=rand(8,80);
+  const spd=(0.018+level*0.006)*(fromRight?-1:1);
+  el.style.left=ex+'%'; el.style.bottom=ey+'%';
+  arena.appendChild(el);
+  enemies.push({el,ex,ey,spd});
+}
+
+/* ── hit ── */
+function takeHit(){
+  if(invincible) return;
+  lives--;
+  setLives();
+  invincible=true;
+  lobEl.classList.add('hurt');
+  lobEl.style.opacity='0.35';
+  setTimeout(()=>{
+    invincible=false;
+    lobEl.classList.remove('hurt');
+    lobEl.style.opacity='1';
+  },1600);
+  setCombo(1);
+  if(lives<=0) endGame();
+}
+
+/* ── game loop ── */
+function loop(ts){
+  if(!running) return;
+
+  if(ts-lastFood > Math.max(1400, 2400-level*120)){ spawnFood(); lastFood=ts; }
+  if(ts-lastEnemy > Math.max(1800, 3200-level*150)){ spawnEnemy(); lastEnemy=ts; }
+  if(ts-lastBubble > 600){ spawnBubble(); lastBubble=ts; }
+
+  lx += (mx-lx)*0.075;
+  ly += (my-ly)*0.075;
+  lx = Math.max(2, Math.min(93,lx));
+  ly = Math.max(2, Math.min(88,ly));
+  lobEl.style.left=lx+'%';
+  lobEl.style.bottom=ly+'%';
+  if(mx < lx) lobEl.style.transform='scaleX(-1)';
+  else lobEl.style.transform='scaleX(1)';
+
+  enemies.forEach((e,i)=>{
+    e.ex += e.spd;
+    e.el.style.left=e.ex+'%';
+    const dx=Math.abs(e.ex-lx), dy=Math.abs(e.ey-ly);
+    if(dx<5 && dy<9) takeHit();
+    if(e.ex<-14||e.ex>114){ e.el.remove(); enemies.splice(i,1); }
+  });
+
+  raf = requestAnimationFrame(loop);
+}
+
+/* ── end ── */
+function endGame(){
+  running=false;
+  cancelAnimationFrame(raf);
+  foods.forEach(f=>{clearTimeout(f.tid);f.el.remove();}); foods=[];
+  enemies.forEach(e=>e.el.remove()); enemies=[];
+  overlay.style.display='flex';
+  overlay.innerHTML=`
+    <div class="overlay-emoji">🦞</div>
+    <div class="overlay-title">Game Over!</div>
+    <div class="overlay-sub">Score: <b style="color:var(--amber)">${score}</b> &nbsp;·&nbsp; Best: <b style="color:var(--teal)">${best}</b><br>You reached <b style="color:var(--amber)">Level ${level}</b>. Well played, Professor!</div>
+    <button class="btn-primary" id="startBtn">Play Again</button>
+  `;
+  document.getElementById('startBtn').addEventListener('click', startGame);
+}
+
+/* ── start ── */
+function startGame(){
+  score=0; lives=3; combo=1; level=1; xp=0; xpGoal=100; running=true;
+  scoreEl.textContent='0'; bestEl.textContent=best;
+  setLives(); setCombo(1);
+  levelBdg.textContent='Level 1';
+  xpFill.style.width='0%'; xpText.textContent='0 / 100';
+  foods.forEach(f=>{clearTimeout(f.tid);f.el.remove();}); foods=[];
+  enemies.forEach(e=>e.el.remove()); enemies=[];
+  lx=50; ly=35; mx=50; my=35;
+  lobEl.style.left='50%'; lobEl.style.bottom='35%';
+  overlay.style.display='none';
+  lastFood=lastEnemy=lastBubble=0;
+  raf=requestAnimationFrame(loop);
+}
+
+/* ── input ── */
+arena.addEventListener('mousemove',e=>{
+  const r=arena.getBoundingClientRect();
+  mx=((e.clientX-r.left)/r.width)*100;
+  my=((r.bottom-e.clientY)/r.height)*100;
+});
+
+arena.addEventListener('touchmove',e=>{
+  e.preventDefault();
+  const r=arena.getBoundingClientRect();
+  const t=e.touches[0];
+  mx=((t.clientX-r.left)/r.width)*100;
+  my=((r.bottom-t.clientY)/r.height)*100;
+},{passive:false});
+
+document.getElementById('startBtn').addEventListener('click', startGame);
+
+/* rotate facts every 8s */
+setInterval(rotateFact, 8000);
+</script>
+</body>
+</html>
